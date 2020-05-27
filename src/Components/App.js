@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
+import Landing from './Landing';
 
 function App() {
   return (
     <div>
-      Welcome back boli
-      <h1>you can suck on dees</h1>
+      <Landing></Landing>
     </div>
   )}
 
