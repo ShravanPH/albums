@@ -4,7 +4,9 @@ import Landing from './Landing';
 function App() {
   return (
     <div>
-      <Landing></Landing>
+      <Landing/>
+    
+      
     </div>
   )}
 

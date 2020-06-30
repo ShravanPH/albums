@@ -1,11 +1,15 @@
 import React,{useState,useRef, useEffect, Fragment} from 'react'
-import {Typography, Divider,Button,AppBar, CssBaseline,Toolbar,MobileStepper, Grid,SwipeableDrawer, Backdrop, Popover} from '@material-ui/core'
+import {BrowserRouter,Switch,Route,Link,withRouter} from 'react-router-dom'
+import {Typography, Divider,Button,AppBar, CssBaseline,Toolbar,MobileStepper,Paper, Grid,SwipeableDrawer, Backdrop, Popover,Card, CardMedia, CardActionArea} from '@material-ui/core'
 import { makeStyles, duration } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {Menu,PersonOutlineOutlined, Close, Add, Image} from '@material-ui/icons';
+import {Menu,PersonOutlineOutlined, Close, Add} from '@material-ui/icons';
 import LDicons from '../Components/LDicons'
+import Home from '../Components/Home'
+import Account from '../Components/Account'
 import {useSpring,animated,config} from 'react-spring'
 import "../App.css"
+import SignUp from './SignUp';
 
   
 function Landing()
@@ -14,8 +18,11 @@ function Landing()
     
     const styles = makeStyles({
         typo:{
-            margin:"250px",
-            marginTop:"140px",
+            margin:50,
+            marginLeft:40,
+            marginRight:30,
+            // marginTop:"140px",
+            marginBottom:"50px",
             textAlign:"center",
             letterSpacing:"15px",
             textShadow:"2px 1.5px 2px #ff0000",
@@ -28,8 +35,8 @@ function Landing()
        positionStatic:{
           width:"75px",
           height:"20px",
-          marginTop:"165px",
-          marginLeft:"335px",
+          marginTop:"25px",
+        //   marginLeft:"40px",
           padding:"0px",
           transform:"rotate(90deg)"
           
@@ -41,9 +48,7 @@ function Landing()
       },
       root:
       {
-          height:"300px",
-          width:"500px", 
-          paddingBottom:"50%"
+         maxWidth:"800px",
         
       },
       test:{
@@ -51,13 +56,33 @@ function Landing()
           width:"500px",
         
       },
+     
+      cssLabel: {
+        color : 'white',
+       
       },
-        )
     
-    const CSSstyle={
-            maxWidth:"500px",
-            maxHeight:"800px"
-    }    
+      cssOutlinedInput: {
+         '&$cssFocused $notchedOutline': 
+         {
+
+          borderColor: "white",
+         
+            }
+      },
+    
+      cssFocused: { },
+    
+      notchedOutline: {
+       
+        borderWidth: '1px',
+        borderColor: 'red !important',
+
+      }, 
+    },
+ )
+    
+
         
     const [theme,setTheme] =useState({
         typography:{
@@ -92,7 +117,7 @@ function Landing()
             },
             MuiPaper:{
                 root:{ 
-                    border:"1.5px #FAEAFF"
+                    border:"1.5px #white"
              }
             },
             MuiBackdrop:
@@ -106,10 +131,13 @@ function Landing()
                     backgroundColor:"#FAEAFF"
                 }
 
-
+            },
+            MuiInputBase:{
+                input:{
+                    color:"white",
+                    letterSpacing:"2px",
+                }
             }
-
-
 
         },
          
@@ -174,9 +202,14 @@ function Landing()
                                 paper:{
                                     backgroundColor:"#0C0215"
                                 }
-                
-                
+                            },
+                            MuiInputBase:{
+                                input:{
+                                    color:"black"
+                                }
                             }
+                
+                
                         
                         }
        })}
@@ -232,7 +265,13 @@ function Landing()
                             }
             
             
+                        },
+                        MuiInputBase:{
+                            input:{
+                                color:"white"
+                            }
                         }
+
             
                     },
                      
@@ -263,6 +302,7 @@ const togglePop=()=>
 
 
 
+
 const [draw,setDraw]=useState(false)
 const toggleDrawer=()=>
 {
@@ -285,6 +325,7 @@ const springFade = useSpring({
     paddingTop:"0px",
     from: { opacity:0,fontSize:"0px",paddingTop:"100px" }
   });
+  
 
 const springIntoL=useSpring({
 
@@ -306,13 +347,29 @@ const springText=useSpring({
 
 })
 
+const brops = {
+
+    L_D_Mode,
+    classes,
+    togglePop,
+    springFade,
+    springText,
+    pop,
+    to:"/signup"
+
+
+}
+
+
+
 
 
     return( 
     <Fragment>      
-       
+       <BrowserRouter>
        <MuiThemeProvider theme={MuiTheme}>
-           <CssBaseline> 
+           <CssBaseline>
+
            <animated.div style={springIntoL}>
            <AppBar position="static" color={"transparent"} className={classes.nav} variant="outlined">
         <Toolbar >
@@ -341,7 +398,7 @@ const springText=useSpring({
          
             <Grid container>
                
-                <Grid item xs={1}>
+            <Grid item xs={1}>
              <Button onClick={toggleDrawer}  style={{marginLeft:"20px",borderRadius:100,width:"16px",marginTop:"20px"}}> 
             <Close style={{fontSize:45,marginBottom:"15px"}} color={L_D_Mode}  >
            </Close>
@@ -349,19 +406,28 @@ const springText=useSpring({
            </Grid>
 
            <Grid item xs={1}>
-           <Typography color={L_D_Mode} variant={"h5"} style={{marginTop:"30px" }} > 
+           <Link to="/" style={{textDecoration:"none"}} onClick={toggleDrawer}> 
+           <Button style={{textTransform:"none"}}>
+           <Typography color={L_D_Mode} variant={"h5"} style={{marginTop:"30px"}} > 
             Memories
             </Typography>
+            </Button>
+           </Link>
             </Grid>
 
             <Grid item xs={1}>
            <PersonOutlineOutlined color={L_D_Mode} style={{fontSize:45,marginLeft:"53px",marginTop:"28px"}}>
            </PersonOutlineOutlined>
            </Grid>
+          
            <Grid item xs={6}>
+           <Link to="/account" style={{textDecoration:"none"}} onClick={toggleDrawer}> 
+           <Button style={{textTransform:"none"}}>
            <Typography color={L_D_Mode} variant={"h5"} style={{marginTop:"30px" }} >
                     Account 
-               </Typography>
+            </Typography>
+            </Button>
+            </Link>
             </ Grid >
 
             <Grid item xs={1}>
@@ -380,198 +446,37 @@ const springText=useSpring({
 
            <Typography style={{flexGrow:1}}></Typography>
            <animated.div style={springIntoR}>
+               
            <Button color={L_D_Mode} style={{borderRadius:100, marginRight:"20px"}} variant="text"  onClick={toggleMode} >
-           {console.log("MODE",theme.palette.type)}
-           {console.log("drawer",draw)}
          <LDicons mode={theme.palette.type}></LDicons>
            </Button>
+           
            </animated.div>
         </Toolbar>
       </AppBar>
       </animated.div>
 
-      <animated.div style={springFade}>
-     
-  
-        <Typography color={L_D_Mode} variant={"h1"} className={classes.typo}   style={springFade}> 
-            Memories
-            <Divider style={{height:5,marginRight:0}} ></Divider>
-           
-            <MobileStepper
-            variant={"dots"}
-            color={L_D_Mode}
-            position={"static"}
-            steps={3}
-            activeStep={0}
-            classes={{dot:classes.dot,positionStatic:classes.positionStatic}}>
-            </MobileStepper>
-            </Typography> 
-            
-    </animated.div>
-
-        <Typography color={L_D_Mode} className={classes.typo} style={{lineHeight:"30px",margin:"100px",marginTop:"300px"}} >
-            STORE YOUR MEMORIES LIKE NEVER BEFORE...
-        </Typography>
-
-        <Grid container xs={12}   spacing={2}  alignItems="center" >
-      
-        <Grid container item> 
-        
-       
-        <Button   onClick={togglePop} >
-        <img src={require("../Images/nature-sky.jpg")}
-            style={CSSstyle}
-            >
-        </img>
-        </Button>
-        </Grid>
-
-        
-        <animated.div style={springText}>
-        <Popover open={pop} 
-        anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'top',
-          }} 
-          >
-        {/* <Grid  item > */}
-        
-            
-        <Typography color="secondary" variant={"h5"}   >
-           THIS IS POPOVER NAKKAN FINALLY ITS WORKING
-           
-        </Typography>
-        
-        {/* </Grid> */}
-
-        <Grid item >
-        <Typography color={L_D_Mode} variant={"body1"} style={{marginTop:"50px"}}  >
-        THIS IS POPOVER
-        </Typography>
-        </Grid>
-        </Popover>
-        </animated.div>
-       
-        
-        <Grid  item > 
-        
-        
-        <Button   onClick={togglePop} size="small">
-         <img src={require("../Images/smol_image.jpg")}
-          style={CSSstyle}>
-        </img>
-        </Button>
-       
-        </Grid>
-
-        
-       
-        <animated.div style={springText}>
-        <Popover open={pop} 
-        anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'top',
-          }} 
-          
-          >
-        {/* <Grid  item > */}
-        
-            
-        <Typography color="secondary" variant={"h5"}   >
-           THIS IS THE SECOND POPOVER NAKKAN FINALLY ITS WORKING
-           
-        </Typography>
-        
-        {/* </Grid> */}
-
-        {/* <Grid item > */}
-        <Typography color={L_D_Mode} variant={"body1"} style={{marginTop:"50px"}}  >
-        THIS IS POPOVER
-        </Typography>
-        {/* </Grid> */}
-        </Popover>
-        </animated.div>
-     
-        
-        
-        <Grid item> 
-         <Button>  
-        <img src={require("../Images/oleksandra.jpg")}
-          style={CSSstyle}>
-
-        </img>
-        </Button>
-    
-    
-        </Grid>
-        
-      
-       
-        <Button disabled >
-        <animated.div style={springText}>
-        <Popover open={pop} 
-        anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'top',
-          }} 
-          
-          >
-       
-        
-            
-        <Typography color="secondary" variant={"h5"}   >
-           THIS IS THE THIRD POPOVER NAKKAN FINALLY ITS WORKING
-           
-        </Typography>
-        
       
 
-        
-        <Typography color={L_D_Mode} variant={"body1"} style={{marginTop:"50px"}}  >
-        THIS IS POPOVER
-        </Typography>
-    
-        </Popover>
-        </animated.div>
-        </Button>
 
-           
-        <Grid  item > 
-        
-        
-        <Button   onClick={togglePop} size="small">
-         <img src={require("../Images/smol_image.jpg")}
-          style={CSSstyle}>
-        </img>
-        </Button>
-       
-        </Grid>
-
-       
-        
-     
-        </Grid>
+{/* ///////////////////////////////////////////////////////////////////// */}
 
         
     {/*                   BRUH                       */}
-        </CssBaseline>
-        </MuiThemeProvider>
+                 <Switch>
+                   
+                        <Route path="/" exact render={(props)=><Home PROPS={brops}/>}/>
+
+                        <Route path="/account" exact component={Account}/>
+                      
+                        <Route path="/signup" exact render={(props)=><SignUp PROPS={brops}/>} />
+
+                </Switch> 
         
+        </CssBaseline>
+        
+        </MuiThemeProvider>
+       </BrowserRouter>
        
     </Fragment>
     
