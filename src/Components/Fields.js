@@ -16,7 +16,7 @@ function Fields(props,color)
         {
             
             from:{
-                fontSize:'20px',
+                fontSize:'50px',
                 opacity:0,
                 paddingBottom:35,
                 letterSpacing:5,
@@ -26,9 +26,9 @@ function Fields(props,color)
             },
            to:{
                
-                fontSize:springT?'45px':'20px',
+                fontSize:springT?'30px':'25px',
                 opacity:1,
-                letterSpacing:springT===0?25:5,
+                letterSpacing:springT===0?10:5,
                 // marginLeft:springT?"150px":"0px",
                 // paddingLeft:springT?"100px":"10px",
                 color:springT?props.color.props.PROPS.L_D_Mode=="primary"?"white":"red":"white",
@@ -111,7 +111,7 @@ return(
     
     <React.Fragment>
         <animated.div style={springIn} >
-            {console.log(props)}
+            {/* {console.log(props)} */}
         <div   style={{paddingLeft:"40px",paddingBottom:50}}onFocus={toggleSpring}  >
 
         
@@ -119,9 +119,9 @@ return(
           <Grid item xs={12}>
          */}
        
-          <animatedTyp style={springIn} style={{textShadow:"3px 2px 2px red",color:"White",paddingRight:"0px"}} onFocus={toggleSpring} > 
+          <animatedTyp  className="text" style={springIn} style={{textShadow:"3px 2px 2px red",color:"White",paddingRight:"0px"}} onFocus={toggleSpring} > 
           {props.props}
-         <button  onFocus={toggleSpring}></button>
+         {/* <button  onFocus={toggleSpring}></button> */}
 </animatedTyp>
 
         {/* <Button color={props.color.L_D_Mode} style={{borderRadius:100, marginRight:"0px"}} variant="text" onClick={toggleIcon} >

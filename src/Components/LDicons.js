@@ -3,10 +3,10 @@ import {NightsStay,Brightness5Outlined, Visibility, VisibilityOff} from '@materi
 
 export default function LDicons(props)
 {
-    console.log(props)
+    //console.log(props)
     if(props.mode==="light")
     {
-        {console.log(props.mode)}
+        // {console.log(props.mode)}
         return(
         <Brightness5Outlined color={props.color}style={{fontSize:45}}>
             </Brightness5Outlined>

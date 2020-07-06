@@ -10,6 +10,7 @@ import Account from '../Components/Account'
 import {useSpring,animated,config} from 'react-spring'
 import "../App.css"
 import SignUp from './SignUp';
+import Auth from './Auth';
 
   
 function Landing()
@@ -467,9 +468,12 @@ const brops = {
                    
                         <Route path="/" exact render={(props)=><Home PROPS={brops}/>}/>
 
+                      
+                        <Route path="/auth" exact render={(props)=><Auth/>} />
                         <Route path="/account" exact component={Account}/>
                       
                         <Route path="/signup" exact render={(props)=><SignUp PROPS={brops}/>} />
+
 
                 </Switch> 
         

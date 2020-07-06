@@ -5,14 +5,27 @@ import {useSpring,animated} from 'react-spring'
 import "../App.css"
 import Fields from './Fields'
 import LDicons from './LDicons'
-
+import axios from 'axios'
 function SignUp(props)
 {
 
-    const [springT,setSpringT]=useState(0)
+    const[username,setName]=useState()
+    const[password,setPassword]=useState()
+    const[verPass,setVerPass]=useState()
+    const[email,setEmail]=useState()
+    const[borderVal,setBorderVal]=useState()
+    const[borderValSh,setBorderValSh]=useState()
+    const[springT,setSpringT]=useState(0)
+    const[count,setCount]=useState(false)
+    const[ar,setAr]=useState(["Username","Password","Verify Password","Email"])
+    const[ic,setIc]=useState(false)
+    const[passCheck,setPassCheck]=useState(false)
+    const icon={props,ic}
+    const animatedTyp=animated(Typography)
+    const axios=require('axios').default
+ 
 
-    const springIn=useSpring(
-        {
+   const springIn=useSpring( {
             
             from:{
                 fontSize:'20px',
@@ -35,133 +48,154 @@ function SignUp(props)
                 
            },
                 
-        }
-    )
+    })
 
-    const toggleSpring=()=>
+    const toggleSpring=()=>{setSpringT((springT)=>springT+1); console.log(springT)}
+    const prop={toggleSpring,props,springIn,springT}
+
+    const toggleIcon=()=>{setIc(ic?false:true)}
+
+    const changeHandlerName=(event)=>{setName(event.target.value)}
+
+    const changeHandlerEmail=(event)=>{setEmail(event.target.value)}
+
+    const changeHandlerPassword=(event)=>
     {
-    
-        //setSpringT(springT?false:true)     
-         setSpringT((springT)=>springT+1)
-         console.log(springT)
+        setPassword(event.target.value)
+
+        if(event.target.value==''){
+            setBorderVal("solid white")
+            setBorderValSh("")
+            
         
+        }
+        else if(event.target.value==verPass)
+        {
+            setBorderVal("solid #00FF3F")
+            setBorderValSh("#00FF3F")
+        
+        }
+        
+        else if(event.target.value!=verPass){
+            setBorderVal("dashed #f30000")
+            setBorderValSh("#f30000")
+        
+        }
     
     }
-
-const toggleCount=()=>
-{
-
-    console.log("bruh")
-
-}
-
-
-const[ar,setAr]=useState(["Username","Password","Verify Password","Email"])
-const[count,setCount]=useState(1)
-const prop={
+    const changeHandlerVerifyPassword=(event)=>
+    {
+        if(event.target.value!=password)
+        {
+            setBorderVal("dashed #f30000")
+            setVerPass(event.target.value)
+            setBorderValSh("#f30000")
+            setPassCheck(false)
+        }
+        else if(event.target.value==''){
+            setBorderVal("solid white")
+            setVerPass(event.target.value)
+            setBorderValSh("")
+            setPassCheck(false)
+        }
+        else if(event.target.value==password)
+        {
         
-    toggleSpring,
-    props,
-    springIn,
-    springT,
-    toggleCount
-}
+            setBorderVal("solid #00FF3F")
+            setBorderValSh("#00FF3F")
+            setVerPass(event.target.value)
+            setPassCheck(true)
+           
+        }
+    
 
+        
+    }
 
-const[ic,setIc]=useState(false)
-
-const toggleIcon=()=>
+    const submitHandler=(event)=>
+    {
+    event.preventDefault()
+    if(passCheck)
 {
-    setIc(ic?false:true)
+    axios.post('https://bruhbruh.free.beeceptor.com/my/api/path ',{username,password,email})
+    .then(res=>{
+        console.log(res)
+    })
+    console.log("submitted")
+    }
+
+else{
+
+    console.log("not submitted")
 
 }
-
-const icon={
-
-    props,
-    ic
-}
-
-
-const animatedTyp=animated(Typography)
-  
+    } 
     return( 
         <React.Fragment>
             <CssBaseline>
                 <BrowserRouter>
-                    <Grid  container   style={{borderRadius:200,boxShadow:"0px 0px 40px 1px #FF3535",marginTop:50,width:1200,marginLeft:25,marginRight:150,height:1000}} >
+                    <Grid  container   style={{borderRadius:200,boxShadow:"0px 0px 40px 1px "+borderValSh,marginTop:50,width:1200,marginLeft:25,marginRight:150,height:850}} >
                         <Grid item xs >
-                            <Card style={{height:1000,borderRadius:"25px 25px"}}>
+                            <Card style={{height:850,borderRadius:"25px 25px"}}>
                             <Typography color={props.PROPS.L_D_Mode} style={{marginBottom:10,marginLeft:25,marginRight:10,fontSize:"35px"}} className={props.PROPS.classes.typo} >
                                    CREATE AN ACCOUNT.
                             </Typography>
-                            <Divider style={{height:3,width:650,marginLeft:25,marginBottom:100}} ></Divider>
+                                <Divider style={{height:3,width:650,marginLeft:25,marginBottom:70}} ></Divider>
+                                    <form onSubmit={submitHandler}> 
+                                        <input className="input" type="name" onChange={changeHandlerName}/>    
+                                        <Fields props={"Username"} color={prop} onClick={toggleSpring}/>
+                                        <input className="input" type={!ic?"password":"name"} value={password} onChange={changeHandlerPassword} 
+                                            style={{border:"0px "+borderVal,borderBottom:"4px "+borderVal}}/>
 
 
+                                        <Grid container>
+                                            <Grid item xs={7}> 
+                                                        <Fields props={"Password"} color={prop} onClick={toggleSpring} />
+                                            </Grid>
+                                            <Grid item xs={2}> 
+                                                        <Button color={props.PROPS.L_D_Mode} style={{borderRadius:100, marginRight:"0px"}} variant="text" onClick={toggleIcon} >
+                                                                    <LDicons props={icon} val={"Password"} />
+                                                        </Button>
+                                            </Grid>
+                                        </Grid>
 
-{
-    ar.map(
-            (m)=><div>
-
-<Grid container>
-          <Grid item xs={m=="Password"?6:10}> 
-          <animated.div style={springIn} onFocus={toggleSpring} >
-                            <Fields props={m} color={prop} onClick={toggleSpring} />
-            </animated.div>
-                            </Grid>
-                            <Grid item xs={1}> 
-                            <Button color={props.PROPS.L_D_Mode} style={{borderRadius:100, marginRight:"0px"}} variant="text" onClick={toggleIcon} >
-                                {
-                                    m=="Password"?<LDicons props={icon} val={m} />:
-                                    m=="Verify Password"?<LDicons props={icon} val={m} />:
-                                    console.log(null)
-                                }
-                                </Button>
-            </Grid>
-           
-                        <input  className="input" 
-                      
-                            type={m=="Password"?!ic?"password":"name":m=="Verify Password"?!ic?"password":"name":
-                            m=="Submit"?"submit":"name"}
-                        
-                            ></input>
-        
-</Grid>                           
-                            
-                            
-                            
-                            
-                            
-                            
-                            </div>
-    )
-}
-                            
-                           
-                      
-                          
+                                        <input className="input" type={!ic?"password":"name"} value={verPass} onChange={changeHandlerVerifyPassword}  
+                                        style={{border:"0px  "+borderVal,borderBottom:"4px "+borderVal}}/>
 
 
+                                        <Grid container>
+                                            <Grid item xs={7}> 
+                                                        <Fields props={"Verify Password"} color={prop} onClick={toggleSpring} />
+                                            </Grid>
+                                            <Grid item xs={1}> 
+                                                        <Button color={props.PROPS.L_D_Mode} style={{borderRadius:100, marginRight:"0px"}} variant="text" onClick={toggleIcon} >
+                                                                    <LDicons props={icon} val={"Verify Password"} />
+                                                        </Button>
+                                            </Grid>
+                                        </Grid>
 
-                         
+                    
+                                        <input className="input" type="name" onChange={changeHandlerEmail}/>
+                                        <Fields props={"Email"} color={prop} onClick={toggleSpring}/>
+                                        
+  
+                                        <input className="input" 
+                                        style={{textShadow:"1px 1px 2px #ff0000", borderBottom:"0px solid white",borderRadius:"200px",
+                                        width: "135px",marginLeft:"280px",marginTop:"30px",marginBottom:"150px",position:"absolute",
+                                        zIndex:1,padding:10,background:"#10041A",
+                                        cursor:"pointer",boxShadow:"1px 1px 1px 0px "+borderValSh}}type="Submit"/>
+
+                                    </form>                            
                             </Card>
-                        
                         </Grid>
-                            
 
-                        
-                        <Grid item xs={5}  >
-                            <Card style={{height:1000,width:500,borderRadius:"0px 25px 25px 0px"}}>
+                        <Grid item xs={5}>
+                            <Card style={{height:850,width:500,borderRadius:"0px 25px 25px 0px"}}>
                                 <CardMedia image={require("../Images/oleksandra.jpg")}  
-                                style={{height:1000,width:500}}>
+                                style={{height:850,width:500}}>
                                 </CardMedia>
                             </Card>
                         </Grid>
-                        <Grid item xs={5} >
-                         
-                        {/* <animatedTyp style={springIn} style={{textShadow:"3px 2px 2px red",color:"White",paddingRight:"30px"}}> Submit </animatedTyp> */}
-                    
-                    </Grid>
                    </Grid>
                 </BrowserRouter>
             </CssBaseline>
